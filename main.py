@@ -114,7 +114,7 @@ class SparseMap:
 
     def __delitem__(self, i: int) -> None:
         if i not in self:
-            return
+            raise KeyError(i)
         j = self.dense[self.n - 1]
         self.dense[self.sparse[i]] = j
         self.sparse[j[0]] = self.sparse[i]
@@ -169,6 +169,8 @@ class MapTests(unittest.TestCase):
         self.assertIn(3, result)
         del result[3]
         self.assertNotIn(3, result)
+        with self.assertRaises(KeyError):
+            del result[3]
 
     def test_iter(self):
         result = SparseMap()
