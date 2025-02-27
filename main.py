@@ -22,6 +22,9 @@ class SparseSet:
     def clear(self) -> None:
         self.n = 0
 
+    def __iter__(self):
+        return iter(self.dense)
+
 class SetTests(unittest.TestCase):
     def test_init(self):
         result = SparseSet()
@@ -51,6 +54,13 @@ class SetTests(unittest.TestCase):
         self.assertIn(3, result)
         result.clear()
         self.assertNotIn(3, result)
+
+    def test_iter(self):
+        result = SparseSet()
+        self.assertEqual(list(iter(result)), [])
+        result.add(3)
+        result.add(4)
+        self.assertEqual(list(iter(result)), [3, 4])
 
 if __name__ == "__main__":
     unittest.main()
