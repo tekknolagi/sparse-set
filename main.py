@@ -10,6 +10,8 @@ class SparseSet:
     n: int = 0
 
     def add(self, i: int) -> None:
+        if i in self:
+            return
         self.dense.append(i)
         if i >= len(self.sparse):
             self.sparse.extend([None]*(i - len(self.sparse) + 1))
@@ -44,6 +46,9 @@ class SetTests(unittest.TestCase):
         result = SparseSet()
         result.add(3)
         result.add(4)
+        self.assertEqual(result.sparse, [None, None, None, 0, 1])
+        self.assertEqual(result.dense, [3, 4])
+        result.add(3)
         self.assertEqual(result.sparse, [None, None, None, 0, 1])
         self.assertEqual(result.dense, [3, 4])
 
