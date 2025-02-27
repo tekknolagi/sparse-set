@@ -22,6 +22,14 @@ class SparseSet:
     def clear(self) -> None:
         self.n = 0
 
+    def remove(self, i: int) -> None:
+        if i not in self:
+            return
+        j = self.dense[self.n - 1]
+        self.dense[self.sparse[i]] = j
+        self.sparse[j] = self.sparse[i]
+        self.n -= 1
+
     def __iter__(self):
         return iter(self.dense)
 
@@ -53,6 +61,13 @@ class SetTests(unittest.TestCase):
         result.add(3)
         self.assertIn(3, result)
         result.clear()
+        self.assertNotIn(3, result)
+
+    def test_remove(self):
+        result = SparseSet()
+        result.add(3)
+        self.assertIn(3, result)
+        result.remove(3)
         self.assertNotIn(3, result)
 
     def test_iter(self):
